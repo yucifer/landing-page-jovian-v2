@@ -1,8 +1,12 @@
 
 from sqlalchemy import create_engine
+import os
 
 
-db_connect_string = "mysql+pymysql://gtvprj8mblggmnq4yhgx:pscale_pw_K6T9h2PMEftqoEfCdvZH9o1IcT4dLS6c3qAMOYNBOBg@aws.connect.psdb.cloud/joviancareers?charset=utf8mb4"
+PASSWORD = os.environ['PASSWORD']
+USERNAME = os.environ['USERNAME']
+
+db_connect_string = "mysql+pymysql://"+ USERNAME + ":" + PASSWORD + "@aws.connect.psdb.cloud/joviancareers?charset=utf8mb4"
 
 
 engine = create_engine(db_connect_string,  
