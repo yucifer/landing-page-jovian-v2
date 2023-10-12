@@ -1,13 +1,16 @@
 
 from sqlalchemy import create_engine
+from sqlalchemy import text
 import os
 
 
-PASSWORD = os.environ['PASSWORD']
-USERNAME = os.environ['USERNAME']
+# PASSWORD = os.getenv('DATABASE_PASSWORD')
+# print(PASSWORD)
+# USERNAME = os.environ['USER']
 
-db_connect_string = "mysql+pymysql://"+ USERNAME + ":" + PASSWORD + "@aws.connect.psdb.cloud/joviancareers?charset=utf8mb4"
+# print(PASSWORD)
 
+db_connect_string = os.environ['DB_CONNECTION_STRING']
 
 engine = create_engine(db_connect_string,  
     connect_args={
@@ -16,3 +19,11 @@ engine = create_engine(db_connect_string,
         }
 })
 
+def load_jobs_from_db():
+  with engine.connect() as conn:
+    result = conn.execute(text("select * from jobs"))
+    jobs = []
+    for row in result.all():
+      jobs.append(row._mapping)
+    return jobs
+load_jobs_from_db()
